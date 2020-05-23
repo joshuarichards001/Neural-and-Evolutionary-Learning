@@ -1,29 +1,31 @@
-import sys
-
-
-# A class defining a certain wine
-class Wine:
-    def __init__(self, classification, values):
-        self.classification = int(classification)
-        self.values = values
-
-
-# parsers the wines from a file into a list
-def parser(file_num):
-    wines = list()
-    with open(sys.argv[file_num]) as f:
-        lines = [line.rstrip() for line in f]
-    iter_lines = iter(lines)
-    next(iter_lines)
-    for line in iter_lines:
-        wine_list = list(map(float, line.split()))
-        wines.append(Wine(wine_list[13], [wine_list[0], wine_list[1], wine_list[2], wine_list[3], wine_list[4],
-                                          wine_list[5], wine_list[6], wine_list[7], wine_list[8], wine_list[9],
-                                          wine_list[10], wine_list[11], wine_list[12]]))
-    return wines
+import pandas as pd
+from sklearn.neural_network import MLPClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import classification_report
 
 
 # Main code
 if __name__ == '__main__':
-    train_set = parser(-2)  # First file
-    test_set = parser(-1)  # Second file
+    # creating data structures
+    train_set = pd.read_csv("p2_data/wine_training", sep=" ")
+    test_set = pd.read_csv("p2_data/wine_test", sep=" ")
+
+    # creating x and y axis
+    x_train = train_set.drop("Class", axis=1)
+    y_train = train_set["Class"]
+    x_test = test_set.drop("Class", axis=1)
+    y_test = test_set["Class"]
+
+    # scaling data
+    scaler = StandardScaler().fit(x_train)
+    x_train = scaler.transform(x_train)
+    x_test = scaler.transform(x_test)
+
+    # training model
+    mlp = MLPClassifier(max_iter=100)
+    mlp.fit(x_train, y_train)
+
+    # predicting test data
+    prediction = mlp.predict(x_test)
+
+    print(classification_report(y_test, prediction))
