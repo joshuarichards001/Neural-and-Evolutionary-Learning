@@ -1,4 +1,3 @@
-import numpy as numpy
 
 
 # A instance within the data (represents a line in the data) has a class and a set of values
@@ -19,11 +18,11 @@ def file_parser(file_name):
 
     for line in lines[1:]:
         instance_value_list = line.split()
-        temp = Instance(int(instance_value_list[len(instance_value_list)-1]), numpy.zeros(len(instance_value_list)))
+        temp = Instance(int(instance_value_list[len(instance_value_list)-1]), [0] * len(instance_value_list))
         temp.features[0] = 1  # Bias
         for i in range(len(instance_value_list)-1):
-            temp.features[i+1] = instance_value_list[i]
-        temp.weights = numpy.zeros(len(temp.features))
+            temp.features[i+1] = float(instance_value_list[i])
+        temp.weights = [0] * len(temp.features)
         list_instances.append(temp)
 
     return list_instances
@@ -31,7 +30,7 @@ def file_parser(file_name):
 
 # Classifies the given instance
 def perceptron_training(inst):
-    total = numpy.dot(inst.features, inst.weights)
+    total = sum(i * j for i, j in zip(inst.features, inst.weights))
     inst.predicted_outcome = 1 if total > 0 else 0
     for i in range(1, len(inst.weights)):
         inst.weights[i] += inst.learning_rate * (inst.classification - inst.predicted_outcome) * inst.features[i]
@@ -42,7 +41,7 @@ def perceptron_training(inst):
 if __name__ == '__main__':
     instances = file_parser("dataset")  # First file
 
-    for _ in range(100):
+    for _ in range(200):
         for instance in instances:
             perceptron_training(instance)
 
