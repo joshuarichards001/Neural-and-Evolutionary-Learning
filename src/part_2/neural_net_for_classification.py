@@ -7,8 +7,8 @@ from sklearn.metrics import classification_report
 # Main code
 if __name__ == '__main__':
     # creating data structures
-    train_set = pd.read_csv("p2_data/wine_training", sep=" ")
-    test_set = pd.read_csv("p2_data/wine_test", sep=" ")
+    train_set = pd.read_csv("wine_training", sep=" ")
+    test_set = pd.read_csv("wine_test", sep=" ")
 
     # creating x and y axis
     x_train = train_set.drop("Class", axis=1)
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     x_test = scaler.transform(x_test)
 
     # training model
-    mlp = MLPClassifier(max_iter=100)
+    mlp = MLPClassifier(max_iter=1000)
     mlp.fit(x_train, y_train)
 
     # predicting test data
