@@ -24,16 +24,17 @@ Hidden Nodes - 100
 
 Each input node represents a different feature of the wine and these 13
 values are what we compute to get the class. The output nodes represent
-the 3 different classes that a wine can be. Finally the number of hidden
-nodes is a value that I came to the conclusion on after extensive testing
-to find the most effective value at outputting the highest accuracy.
+the 3 different classes that a wine can fall under. Finally the number
+of hidden nodes is a value that I came to the conclusion on after extensive
+testing to find the most effective value.
 
 Question 2:
 -----------
 Learning Rate - 0.001
 Momentum - 0.9
-Initial Weight Ranges - Created by scikit-learn based on the features and output
-                        values.
+Initial Weight Ranges - Implemented by scikit-learn (fan_in and fan_out are
+                        certain values within a layer)
+
                         init_bound = np.sqrt(6. / (fan_in + fan_out))
                         self._random_state.uniform(-init_bound, init_bound,
                                            (fan_in, fan_out))
@@ -76,7 +77,7 @@ PART 3:
 The reason I used gplearn as my library of choice for genetic programming
 is because of it's user friendly experience and simplistic design. It
 also follows the scikit-learn API which is a library I already have familiarity
-with making gplearn easier to pick up.
+with, making gplearn easier to pick up.
 
 Question 1:
 -----------
@@ -89,13 +90,13 @@ add, subtract, multiply, divide
 Question 3:
 -----------
 The fitness function that was determined within gplearn provided excellent results
-by default so adjustment of the function was not necessary. The process they use to
+by default so adjustment of this function was not necessary. The process they use to
 calculate there fitness function is with "mean absolute error" using this code:
 
     np.average(np.abs(y_pred - y), weights=w)
 
-where it takes the average out of: the absolute value of the predicted y value and
-the y value, and the calculated weights.
+where it takes the average out of: the absolute value of the predicted y value subtracted
+from the y value, and the calculated weights.
 
 Question 4:
 -----------
@@ -105,7 +106,8 @@ Population - 5000
 
 I used these values as they produced the most accurate results. With regard to the
 stopping criteria this value was rarely reached as for the most part the most ideal
-value was found at the conclusion of the generations.
+value was found at the conclusion of the generations rather than being caught by this
+stopping criteria.
 
 Question 5:
 -----------
@@ -172,21 +174,16 @@ Stopping Criteria - 0.01
 Question 5:
 -----------
 When creating my test and training data sets I randomly shuffled the original data set
-and then evenly split it in half with one half going into training.txt and the other
-half going into test.txt
+and then evenly split it in half, with one half going into training.txt and the other
+going into test.txt
 
 Question 6:
 -----------
-Random Seed 0 - 0.9 div(V22, V16)
-Random Seed 1 - 0.8774122807017544 div(V22, V20)
-Random Seed 2 - 0.9114035087719298 sub(sub(div(V22, V8), div(sub(V8, V22), V22)), div(sub(V7, V22), V22))
-Random Seed 3 - 0.9524122807017544 div(V18, V8)
-Random Seed 4 - 0.9524122807017544 div(V18, V8)
-Random Seed 5 - 0.9065789473684212 div(V22, V8)
-Random Seed 6 - 0.9070175438596492 mul(div(V22, V36), div(V30, V31))
-Random Seed 7 - 0.9065789473684212 div(V22, V8)
-Random Seed 8 - 0.9065789473684212 div(V22, V8)
-Random Seed 9 - 0.8774122807017544 div(V22, V20)
+(0.9 + 0.8774122807017544 + 0.9114035087719298 + 0.9524122807017544 + 0.9524122807017544 +
+0.9065789473684212 + 0.9070175438596492 + 0.9065789473684212 + 0.9065789473684212 +
+0.8774122807017544) / 10
+
+ = 0.9098 = 90.98% Accuracy Rate
 
 Question 7:
 -----------

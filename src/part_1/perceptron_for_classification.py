@@ -50,5 +50,5 @@ if __name__ == '__main__':
         print("Actual Class:", instance.classification, "Predicted Class:", instance.predicted_outcome)
         if instance.predicted_outcome == instance.classification:
             count += 1
-    print("Wins: ", count, "Total: ", len(instances))
+    print("\nWins: ", count, "Total: ", len(instances))
     print(count/len(instances)*100, "%  is the percentage classified correctly")
