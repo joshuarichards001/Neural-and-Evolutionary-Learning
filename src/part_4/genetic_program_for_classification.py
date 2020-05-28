@@ -1,24 +1,28 @@
-import graphviz
 import pandas as pd
-
-
-# Main code
 from gplearn.genetic import SymbolicClassifier
 from sklearn.metrics import roc_auc_score
+from sklearn.utils import shuffle
 
 if __name__ == '__main__':
-    # creating data structures
-    train_set = pd.read_csv("satellite", sep=" ")
+    for i in range(10):
+        # creating data structures
+        train_set = pd.read_csv("training.txt", sep=" ")
+        test_set = pd.read_csv("test.txt", sep=" ")
 
-    # creating x and y axis
-    x_train = train_set.drop("Target", axis=1)
-    y_train = train_set["Target"]
+        x_train = train_set.drop("Target", axis=1)
+        y_train = train_set["Target"]
 
-    est = SymbolicClassifier(parsimony_coefficient=.01,
-                             feature_names=list(x_train.columns.values),
-                             random_state=1)
-    est.fit(x_train, y_train)
+        x_test = test_set.drop("Target", axis=1)
+        y_test = test_set["Target"]
 
-    y_true = y_train
-    y_score = est.predict_proba(x_train)[:, 1]
-    print(roc_auc_score(y_true, y_score))
+        est = SymbolicClassifier(parsimony_coefficient=.01,
+                                 stopping_criteria=0.01,
+                                 feature_names=list(x_train.columns.values),
+                                 random_state=i)
+
+        est.fit(x_train, y_train)
+
+        y_true = y_test
+        y_score = est.predict_proba(x_test)[:, 1]
+
+        print("Random Seed", i, "-", roc_auc_score(y_true, y_score), est._program)

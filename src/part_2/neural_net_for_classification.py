@@ -22,7 +22,10 @@ if __name__ == '__main__':
     x_test = scaler.transform(x_test)
 
     # training model
-    mlp = MLPClassifier(max_iter=1000)
+    mlp = MLPClassifier(max_iter=1000,
+                        learning_rate_init=0.001,
+                        momentum=0.9,
+                        random_state=None)
     mlp.fit(x_train, y_train)
 
     # predicting test data
